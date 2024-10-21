@@ -1,0 +1,65 @@
+/* You can add global styles to this file, and also import other style files */
+
+// If you want to override variables do it here
+@import "variables";
+
+// Import styles with default layout.
+@import "@coreui/coreui/scss/coreui";
+
+// Import Chart.js custom tooltips styles
+@import "@coreui/chartjs/scss/coreui-chartjs";
+
+// Custom styles for this theme
+@import "theme";
+
+// Some temp fixes
+//@import "fixes";
+
+// If you want to add custom CSS you can put it here.
+@import "custom";
+
+// Examples
+// We use those styles to show code examples, you should remove them in your application.
+@import "examples";
+
+.ngx-pagination {
+    display: flex !important;
+    justify-content: center !important;
+    padding: 10px !important;
+}
+
+.ngx-pagination li {
+    list-style: none !important;
+}
+
+.ngx-pagination li a {
+    text-decoration: none !important;
+}
+
+.ngx-pagination li a:hover {
+    text-decoration: none !important;
+}
+
+.ngx-pagination li a:hover,
+.ngx-pagination li span:hover {
+    background-color: #5856d6 !important;
+    color: white !important;
+    text-decoration: none !important;
+    border-radius: 8px !important;
+}
+
+.ngx-pagination .current {
+    background-color: #5856d6 !important;
+    color: white !important;
+    border-color: #5856d6 !important;
+    padding: 5px 12px !important;
+    /* Certifica-se de que o padding é consistente */
+    border-radius: 8px !important;
+    /* Arredonda as bordas da página ativa */
+    display: inline-block !important;
+    /* Certifica-se de que a página ativa é exibida inline */
+    text-align: center !important;
+    /* Centraliza o conteúdo */
+}
+
+  

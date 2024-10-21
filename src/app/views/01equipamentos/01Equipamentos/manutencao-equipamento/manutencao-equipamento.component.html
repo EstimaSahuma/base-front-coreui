@@ -1,0 +1,55 @@
+<c-modal #modalDescartarEquipamento id="modalManutencaoEquipamento" backdrop="static" size="sm">
+    <form [formGroup]="myForm" (submit)="onSubmit();">
+        <c-modal-header>
+            <h5 cModalTitle>{{ title }}</h5>
+            <button [cModalToggle]="modalDescartarEquipamento.id" cButtonClose></button>
+        </c-modal-header>
+        <c-modal-body>
+            <!-- Colocar input e select na mesma linha -->
+            <div class="row g-3 mb-3">
+
+                <div class="col-md-12">
+                    <label cLabel for="maintenance_date">Data de Descarte:</label>
+                    <input type="date" id="maintenance_date" cFormControl
+                        formControlName="maintenance_date" class="form-control" />
+                           <!-- Mensagens de erro -->
+                     <div *ngIf="submitted && myForm.controls['maintenance_date'].errors" class="text-danger mt-2">
+                        <div *ngIf="myForm.controls['maintenance_date'].errors['required']">Data é obrigatório.</div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <label cLabel for="performed_by">Responsavel:</label>
+                    <input type="text" id="performed_by" cFormControl
+                        formControlName="performed_by" class="form-control" />
+                </div>
+
+                <div class="col-md-12">
+                    <label cLabel for="description">Motivo</label>
+                    <textarea  id="description" cFormControl rows="4"
+                        formControlName="description" class="form-control" placeholder="Motivo da manutenção" >
+                    </textarea>
+                     <!-- Mensagens de erro -->
+                     <div *ngIf="submitted && myForm.controls['description'].errors" class="text-danger mt-2">
+                        <div *ngIf="myForm.controls['description'].errors['required']">Motivo é obrigatório.</div>
+                    </div>
+                </div>
+
+            </div>
+        </c-modal-body>
+        <c-modal-footer>
+            <!-- Botão para fechar o modal -->
+            <button cButton color="danger" (click)="onReset()" class="text-white">Limpar</button>
+
+            <!-- Botão para salvar -->
+            <button cButton color="primary" type="submit" [disabled]="myForm.invalid || loading">
+                <!-- Botão desabilitado se o formulário for inválido ou estiver carregando -->
+                <ng-container *ngIf="!loading; else loadingTemplate">Salvar</ng-container>
+                <ng-template #loadingTemplate>
+                    <c-spinner aria-hidden="true" size="sm"></c-spinner>
+                    Carregando...
+                </ng-template>
+            </button>
+        </c-modal-footer>
+    </form>
+</c-modal>

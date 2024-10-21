@@ -1,0 +1,104 @@
+<c-modal #modalAddOrEditEquipamento id="modalAddOrEditEquipamento" backdrop="static" size="xl">
+    <form [formGroup]="myForm" (submit)="onSubmit();">
+        <c-modal-header>
+            <h5 cModalTitle>{{ title }}</h5>
+            <button [cModalToggle]="modalAddOrEditEquipamento.id" cButtonClose></button>
+        </c-modal-header>
+        <c-modal-body>
+            <!-- Colocar input e select na mesma linha -->
+            <div class="row g-3 mb-3">
+
+                <div class="col-md-4">
+                    <label cLabel for="equipment_type_id">Tipo de Equipamento:</label>
+                    <select id="equipment_type_id" cFormControl formControlName="equipment_type_id" class="form-select">
+                        <option [ngValue]="null">Selecionar Tipo de Equipamento</option>
+                        <option [ngValue]="item.id" *ngFor="let item of tipos_equipamentos">{{item.type_name}}</option>
+                    </select>
+                    <!-- Mensagens de erro -->
+                    <div *ngIf="submitted && myForm.controls['equipment_type_id'].errors" class="text-danger mt-2">
+                        <div *ngIf="myForm.controls['equipment_type_id'].errors['required']">Tipo de Equipamento é obrigatório.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label cLabel for="value">Preço:</label>
+                    <input id="value" cFormControl formControlName="value" class="form-control"
+                        placeholder="Preço de compra" />
+                    <!-- Mensagens de erro -->
+                    <div *ngIf="submitted && myForm.controls['value'].errors" class="text-danger mt-2">
+                        <div *ngIf="myForm.controls['value'].errors['required']">Preço é obrigatório.</div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label cLabel for="condition_id">Condição:</label>
+                    <select id="condition_id" cFormControl formControlName="condition_id" class="form-select">
+                        <option [ngValue]="null">Selecionar condição</option>
+                        <option [ngValue]="item.id" *ngFor="let item of condicoes">{{item.condition_name}}</option>
+                    </select>
+                    <!-- Mensagens de erro -->
+                    <div *ngIf="submitted && myForm.controls['condition_id'].errors" class="text-danger mt-2">
+                        <div *ngIf="myForm.controls['condition_id'].errors['required']">Condição é obrigatória.</div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label cLabel for="purchase_date">Data de compra:</label>
+                    <input type="date" id="purchase_date" cFormControl formControlName="purchase_date"
+                        class="form-control" placeholder="Preço de compra" />
+                </div>
+
+                <div class="col-md-4">
+                    <label cLabel for="warranty_expiration_date">Data de Garantia:</label>
+                    <input type="date" id="warranty_expiration_date" cFormControl
+                        formControlName="warranty_expiration_date" class="form-control" placeholder="Preço de compra" />
+                </div>
+
+                <div class="col-md-4">
+                    <label cLabel for="location_id">Local:</label>
+                    <select id="location_id" cFormControl formControlName="location_id" class="form-select">
+                        <option [ngValue]="null">Selecionar Local</option>
+                        <option [ngValue]="item.id" *ngFor="let item of locais">{{item.location_name}}</option>
+                    </select>
+                    <!-- Mensagens de erro -->
+                    <div *ngIf="submitted && myForm.controls['location_id'].errors" class="text-danger mt-2">
+                        <div *ngIf="myForm.controls['location_id'].errors['required']">Local é obrigatória.</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <label cLabel for="serial_number">Número Série:</label>
+                    <input id="serial_number" cFormControl formControlName="serial_number" class="form-control"
+                        placeholder="Número de série" />
+                </div>
+
+                <div class="col-md-8">
+                    <label cLabel for="description">Descrição</label>
+                    <textarea  id="description" cFormControl
+                        formControlName="description" class="form-control" placeholder="Descrição do equipamento" >
+                    </textarea>
+                     <!-- Mensagens de erro -->
+                     <div *ngIf="submitted && myForm.controls['description'].errors" class="text-danger mt-2">
+                        <div *ngIf="myForm.controls['description'].errors['required']">Descrição é obrigatória.</div>
+                    </div>
+                </div>
+
+            </div>
+        </c-modal-body>
+        <c-modal-footer>
+            <!-- Botão para fechar o modal -->
+            <button cButton color="danger" (click)="onReset()" class="text-white">Limpar</button>
+
+            <!-- Botão para salvar -->
+            <button cButton color="primary" type="submit" [disabled]="myForm.invalid || loading">
+                <!-- Botão desabilitado se o formulário for inválido ou estiver carregando -->
+                <ng-container *ngIf="!loading; else loadingTemplate">Salvar</ng-container>
+                <ng-template #loadingTemplate>
+                    <c-spinner aria-hidden="true" size="sm"></c-spinner>
+                    Carregando...
+                </ng-template>
+            </button>
+        </c-modal-footer>
+    </form>
+</c-modal>

@@ -1,0 +1,14 @@
+.spinner-overlay {
+    position: absolute; /* Para posicionamento absoluto */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(26, 20, 61, 0.181); /* Fundo semi-transparente */
+    z-index: 1000; /* Para garantir que o spinner fique acima da tabela */
+    border-radius: 6px;
+  }
+  

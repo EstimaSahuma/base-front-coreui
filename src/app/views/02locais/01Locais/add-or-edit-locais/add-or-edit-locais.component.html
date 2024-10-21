@@ -1,0 +1,49 @@
+<c-modal #modalAddOrEditLocal id="modalAddOrEditLocal" backdrop="static" size="lg">
+    <form [formGroup]="myForm" (submit)="onSubmit();">
+      <c-modal-header>
+        <h5 cModalTitle>{{ title }}</h5>
+        <button [cModalToggle]="modalAddOrEditLocal.id" cButtonClose></button>
+      </c-modal-header>
+      <c-modal-body>
+        <!-- Colocar input e select na mesma linha -->
+        <div class="d-flex align-items-center mb-3" style="width: 100%;">
+          <div class="me-3 w-50">
+            <label cLabel for="location_name">Nome:</label>
+            <input id="location_name" cFormControl formControlName="location_name" class="form-control w-100"
+            placeholder="Nome da sala" />
+            <!-- Mensagens de erro -->
+            <div *ngIf="submitted && myForm.controls['location_name'].errors" class="text-danger mt-2">
+              <div *ngIf="myForm.controls['location_name'].errors['required']">Nome é obrigatório.</div>
+            </div>
+          </div>
+  
+          <div class="w-50">
+            <label cLabel for="department_id">Departamento:</label>
+            <select id="department_id" cFormControl formControlName="department_id" class="form-select w-100">
+              <option [ngValue]="null">Selecionar departamento</option>
+              <option [ngValue]="item.id" *ngFor="let item of departamentos ">{{item.department_name}}</option>
+            </select>
+            <!-- Mensagens de erro -->
+            <div *ngIf="submitted && myForm.controls['department_id'].errors" class="text-danger mt-2">
+              <div *ngIf="myForm.controls['department_id'].errors['required']">Departamento é obrigatório.</div>
+            </div>
+          </div>
+        </div>
+      </c-modal-body>
+      <c-modal-footer>
+        <!-- Botão para fechar o modal -->
+        <button cButton color="danger" (click)="onReset()" class="text-white">Limpar</button>
+  
+        <!-- Botão para salvar -->
+        <button cButton color="primary" type="submit" [disabled]="myForm.invalid || loading">
+          <!-- Botão desabilitado se o formulário for inválido ou estiver carregando -->
+          <ng-container *ngIf="!loading; else loadingTemplate">Salvar</ng-container>
+          <ng-template #loadingTemplate>
+            <c-spinner aria-hidden="true" size="sm"></c-spinner>
+            Carregando...
+          </ng-template>
+        </button>
+      </c-modal-footer>
+    </form>
+  </c-modal>
+  

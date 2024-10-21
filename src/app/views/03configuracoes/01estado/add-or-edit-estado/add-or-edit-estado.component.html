@@ -1,0 +1,33 @@
+<c-modal #modalAddOrEditEstado id="modalAddOrEditEstado" backdrop="static">
+    <form [formGroup]="myForm" (submit)="onSubmit();">
+      <c-modal-header>
+        <h5 cModalTitle>{{ title }}</h5>
+        <button [cModalToggle]="modalAddOrEditEstado.id" cButtonClose></button>
+      </c-modal-header>
+      <c-modal-body>
+        <div class="mb-3">
+          <label cLabel for="status_name">Nome:</label>
+          <input id="status_name" cFormControl formControlName="status_name"  placeholder="Nome do estado" />
+  
+          <!-- Mensagens de erro -->
+          <div *ngIf="submitted && myForm.controls['status_name'].errors" class="text-danger mt-2">
+            <div *ngIf="myForm.controls['status_name'].errors['required']">Nome é obrigatório.</div>
+          </div>
+        </div>
+      </c-modal-body>
+      <c-modal-footer>
+        <!-- Botão para fechar o modal -->
+        <button cButton color="danger" (click)="onReset()" class="text-white">Limpar</button>
+  
+        <!-- Botão para salvar -->
+        <button cButton color="primary" type="submit" [disabled]="myForm.invalid || loading">
+          <!-- Botão desabilitado se o formulário for inválido ou estiver carregando -->
+          <ng-container *ngIf="!loading; else loadingTemplate">Salvar</ng-container>
+          <ng-template #loadingTemplate>
+            <c-spinner aria-hidden="true" size="sm"></c-spinner>
+            Carregando...
+          </ng-template>
+        </button>
+      </c-modal-footer>
+    </form>
+  </c-modal>

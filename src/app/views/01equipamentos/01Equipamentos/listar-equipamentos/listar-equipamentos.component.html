@@ -1,0 +1,138 @@
+<c-row>
+    <c-col xs>
+        <c-card class="mb-4">
+            <c-card-body>
+                <!-- Adicionando o input de perpage e o input de pesquisa com o botão de pesquisa -->
+                <div class="d-flex align-items-center mb-3">
+                    <!-- Input para quantidade por página -->
+                    <select class="form-select me-2" [(ngModel)]="pagination.perPage" (ngModelChange)="listarEquipamentos()"
+                        style="max-width: 120px;">
+                        <option [value]="5">5</option>
+                        <option [value]="10">10</option>
+                        <option [value]="15">15</option>
+                        <option [value]="20">20</option>
+                    </select>
+
+                    <!-- Input de pesquisa -->
+                    <input type="text" [(ngModel)]="this.filter.search" placeholder="Pesquisar por nome"
+                        style="max-width: 480px;" class="form-control me-2">
+                    <!-- Botão de pesquisa -->
+                    <button cButton color="primary" (click)="listarEquipamentos()">Pesquisar</button>
+                </div>
+            </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>
+
+<c-row>
+    <c-col xs>
+        <c-card class="mb-4">
+            <c-card-header>
+                <div class="row align-items-center">
+                    <c-col xs="auto">
+                        <h5>Lista de Equipamentos</h5>
+                    </c-col>
+                    <c-col class="ms-auto" xs="auto">
+                        <button cButton color="primary" (click)="launchModal(); setData(null)" variant="outline">
+                            Registar Equipamento
+                        </button>
+                    </c-col>
+                </div>
+            </c-card-header>
+            <c-card-body>
+                <table cTable [striped]="true" bordered>
+                    <thead  cTableColor="dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Equipamento</th>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">N.Série</th>
+                            <th scope="col">Condição</th>
+                            <th scope="col">Preço</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Data Compra</th>
+                            <th scope="col">Praso Garantia</th>
+                            <th scope="col">Registado por</th>
+                            <th scope="col">Opções</th>
+                        </tr>
+                    </thead>
+                    <app-spinner *ngIf="loading"></app-spinner>
+                    <tbody *ngIf="!loading">
+                        <tr *ngIf="IsEmpty()">
+                            <td colspan="3" class="text-center">
+                                <p class="text-danger"> Nenhum registro encontrado ... </p>
+                            </td>
+                        </tr>
+
+                        <tr
+                            *ngFor="let item of equipamentos | paginate: { itemsPerPage: this.pagination.perPage, currentPage: this.pagination.page, totalItems: this.pagination.total }; let i = index">
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>{{ item?.type.type_name }}</td>
+                            <td>{{ item?.description || '----------------'}}</td>
+                            <td>{{ item?.serial_number }}</td>
+                            <td>{{ item?.condition?.condition_name }}</td>
+                            <td>{{ item?.value }}</td>
+                            <td [ngClass]="{
+                                'status-danger': item?.status?.color === 'danger',
+                                'status-warning': item?.status?.color === 'warning',
+                                'status-success': item?.status?.color === 'success'
+                              }">
+                              {{ item?.status?.status_name }}
+                          </td>
+                            <td>{{ item?.purchase_date | date:'dd/MM/yyyy'}}</td>
+                            <td>{{ item?.warranty_expiration_date | date:'dd/MM/yyyy'}}</td>
+                            <td>{{ item?.user?.name }}</td>
+                            <td>
+                                <c-dropdown variant="btn-group">
+                                    <button cButton cDropdownToggle color="primary" size="sm">
+                                        Acções
+                                    </button>
+                                    <ul cDropdownMenu>
+                                        <li *ngIf="item?.status.id!=2">
+                                            <button cDropdownItem (click)="launchModalDescarte(); setData(item);">
+                                                <c-icon name="cil-warning" class="me-1"></c-icon>
+                                                Descartar
+                                            </button>
+                                        </li>
+                                        <li *ngIf="item?.status.id==1">
+                                            <button cDropdownItem (click)="launchModalManutencao(); setData(item);">
+                                                <c-icon name="cil-warning" class="me-1"></c-icon>
+                                                Manutenção
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button cDropdownItem (click)="launchModal(); setData(item);">
+                                                <c-icon name="cil-pencil" class="me-1"></c-icon>
+                                                Editar
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button cDropdownItem>
+                                                <c-icon name="cil-trash" class="me-1"></c-icon>
+                                                Eliminar
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </c-dropdown>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <td colspan="3" class="text-end">
+                        <pagination-controls (pageChange)="getPageFilterData($event)" previousLabel="Anterior"
+                            nextLabel="Próximo">
+                        </pagination-controls>
+                    </td>
+                </div>
+            </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>
+
+ <app-add-or-edit-equipamento (loadList)="listarEquipamentos()" [equipamento]="equipamento" (close)="setData(null)">
+</app-add-or-edit-equipamento>
+
+<app-descartar-equipamento  (loadList)="listarEquipamentos()" [equipamento]="equipamento" (close)="setData(null)"></app-descartar-equipamento>
+
+<app-manutencao-equipamento (loadList)="listarEquipamentos()" [equipamento]="equipamento" (close)="setData(null)"></app-manutencao-equipamento>

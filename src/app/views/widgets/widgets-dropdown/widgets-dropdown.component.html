@@ -1,0 +1,51 @@
+<c-row class="g-4">
+  <c-col sm="6" xl="4">
+    <c-widget-stat-a
+      [title]="'Activos'"
+      color="info"
+    >
+      <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
+        <!-- Corrigido de estatistic?.activos para estatistic?.activo -->
+        <span>{{estatistic?.activos}} Equipamentos</span>
+        <span class="fw-normal" style="font-size: 12px;">
+          ({{(estatistic?.activos * 100) / estatistic?.total}}% <svg cIcon name="cilArrowTop" size="sm"></svg>)
+        </span>
+      </ng-template>
+      <ng-template cTemplateId="widgetChartTemplate">
+        <c-chart [data]="data[1]" [options]="options[1]" class="mt-3 mx-3" height="70" type="line"></c-chart>
+      </ng-template>
+    </c-widget-stat-a>
+  </c-col>
+  <c-col sm="6" xl="4">
+    <c-widget-stat-a
+      [title]="'Em Manutenção'"
+      color="warning"
+    >
+      <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
+        <span>{{estatistic?.manutencao}} Equipamentos</span>
+        <span class="fw-normal" style="font-size: 12px;">
+          ({{(estatistic?.manutencao * 100) / estatistic?.total}}% <svg cIcon name="cilArrowTop" size="sm"></svg>)
+        </span>
+      </ng-template>
+      <ng-template cTemplateId="widgetChartTemplate">
+        <c-chart [data]="data[2]" [options]="options[2]" class="mt-3" height="70" type="line"></c-chart>
+      </ng-template>
+    </c-widget-stat-a>
+  </c-col>
+  <c-col sm="6" xl="4">
+    <c-widget-stat-a
+      [title]="'Em Descarte'"
+      color="danger"
+    >
+      <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
+        <span>{{estatistic?.descarte}} Equipamentos</span>
+        <span class="fw-normal" style="font-size: 12px;">
+          ({{(estatistic?.descarte * 100) / estatistic?.total}}% <svg cIcon name="cilArrowBottom" size="sm"></svg>)
+        </span>
+      </ng-template>
+      <ng-template cTemplateId="widgetChartTemplate">
+        <c-chart [data]="data[3]" [options]="options[3]" class="mt-3 mx-3" height="70" type="bar"></c-chart>
+      </ng-template>
+    </c-widget-stat-a>
+  </c-col>
+</c-row>
